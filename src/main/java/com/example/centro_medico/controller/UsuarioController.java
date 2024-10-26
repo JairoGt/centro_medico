@@ -1,13 +1,16 @@
 package com.example.centro_medico.controller;
 
 import com.example.centro_medico.ResourceNotFoundException;
+import com.example.centro_medico.dto.LoginRequest;
 import com.example.centro_medico.model.Usuario;
 import com.example.centro_medico.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -59,4 +62,22 @@ public class UsuarioController {
         usuarioRepository.delete(usuario);
         return ResponseEntity.noContent().build();
     }
+
+    // Login de usuario
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByNombreUsuario(loginRequest.getNombreUsuario());
+
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            if (usuario.getContrasena().equals(loginRequest.getContrasena())) {
+                return ResponseEntity.ok("Login exitoso");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
+        }
+    }
+
 }

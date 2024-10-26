@@ -37,23 +37,23 @@ public class PacienteController {
     }
 
     // Actualizar un paciente
-    @PutMapping("/{id}")
-    public ResponseEntity<Paciente> updatePaciente(@PathVariable Long id, @RequestBody Paciente pacienteDetails) {
-        Paciente paciente = pacienteRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado con id :: " + id));
+@PutMapping("/{id}")
+public ResponseEntity<Paciente> updatePaciente(@PathVariable Long id, @RequestBody Paciente pacienteDetails) {
+    Paciente paciente = pacienteRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Paciente no encontrado con id :: " + id));
 
-        paciente.setNombre(pacienteDetails.getNombre());
-        paciente.setApellido(pacienteDetails.getApellido());
-        paciente.setFecha_Nacimiento(pacienteDetails.getFecha_Nacimiento());
-        paciente.setGenero(pacienteDetails.getGenero());
-        paciente.setDireccion(pacienteDetails.getDireccion());
-        paciente.setTelefono(pacienteDetails.getTelefono());
-        paciente.setCorreo(pacienteDetails.getCorreo());
-        paciente.setHistorialMedico(pacienteDetails.getHistorialMedico());
+    paciente.setNombre(pacienteDetails.getNombre());
+    paciente.setApellido(pacienteDetails.getApellido());
+    paciente.setFecha_nacimiento(pacienteDetails.getFecha_nacimiento()); // Actualizado
+    paciente.setGenero(pacienteDetails.getGenero());
+    paciente.setDireccion(pacienteDetails.getDireccion());
+    paciente.setTelefono(pacienteDetails.getTelefono());
+    paciente.setCorreo(pacienteDetails.getCorreo());
+    paciente.setHistorialMedico(pacienteDetails.getHistorialMedico());
 
-        Paciente updatedPaciente = pacienteRepository.save(paciente);
-        return ResponseEntity.ok(updatedPaciente);
-    }
+    Paciente updatedPaciente = pacienteRepository.save(paciente);
+    return ResponseEntity.ok(updatedPaciente);
+}
 
     // Eliminar un paciente
     @DeleteMapping("/{id}")

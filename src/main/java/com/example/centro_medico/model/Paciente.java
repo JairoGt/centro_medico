@@ -15,7 +15,8 @@ public class Paciente {
     private String nombre;
     private String apellido;
     private String genero;
-    private String Fecha_Nacimiento;
+    @Column(name = "fecha_nacimiento")
+    private String fecha_nacimiento;
     private String direccion;
     private String telefono;
     private String correo;
